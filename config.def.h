@@ -2,7 +2,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 10;       /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
@@ -23,7 +23,7 @@ static const char col_cyan[]        = "#6272a4";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_gray4 },
 	[SchemeHid]  = { col_cyan,  col_gray1, col_cyan  },
 };
 
@@ -38,6 +38,9 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "TelegramDesktop", NULL,NULL,       0,            1,           -1 },
+	{ "Cherrytree", NULL,     NULL,       0,            1,           -1 },
+	{ "Pavucontrol", NULL,    NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -66,7 +69,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+// static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "rofi", "-show", "drun", "-show-icons", "-no-history" };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *mutecmd[] = { "pulseaudio-ctl", "mute", NULL };
 static const char *volupcmd[] = { "pulseaudio-ctl", "up", NULL };
