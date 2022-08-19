@@ -1,5 +1,4 @@
 /* See LICENSE file for copyright and license details. */
-#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -23,7 +22,7 @@ static const char col_cyan[]        = "#6272a4";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_gray4 },
 };
 
 /* tagging */
@@ -34,12 +33,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "TelegramDesktop", NULL,NULL,       0,            1,           -1 },
-	{ "Cherrytree", NULL,     NULL,       0,            1,           -1 },
-	{ "Pavucontrol", NULL,    NULL,       0,            1,           -1 },
+	/* class             instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",         NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "TelegramDesktop", NULL,       NULL,       0,            1,           -1 },
+	{ "Cherrytree",      NULL,       NULL,       0,            1,           -1 },
+	{ "Pavucontrol",     NULL,       NULL,       0,            1,           -1 },
+	{ "Lxappearance",    NULL,       NULL,       0,            1,           -1 },
+	{ "Subl",            NULL,       NULL,       0,            1,           -1 },
+	{ "Joplin",          NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -67,19 +69,10 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-// static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *dmenucmd[] = { "rofi", "-show", "drun", "-show-icons", "-no-history" };
 static const char *termcmd[]  = { "alacritty", NULL };
-static const char *mutecmd[] = { "pulseaudio-ctl", "mute", NULL };
-static const char *volupcmd[] = { "pulseaudio-ctl", "up", NULL };
-static const char *voldowncmd[] = { "pulseaudio-ctl", "down", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_s,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -87,7 +80,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-    { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
+    { MODKEY|ShiftMask,             XK_Tab,    zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -114,10 +107,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
-    { 0,                            XF86XK_AudioMute,        spawn, {.v = mutecmd } },
-    { 0,                            XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd } },
-    { 0,                            XF86XK_AudioLowerVolume, spawn, {.v = voldowncmd } },
 };
 
 /* button definitions */
