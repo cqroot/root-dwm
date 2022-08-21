@@ -1,0 +1,23 @@
+super + Return
+	alacritty
+
+super + shift + Return
+	alacritty --class alacritty-float
+
+super + p
+	sh ${ROOTDWM_PATH}/bin/rofi/power.sh
+
+super + s
+	rofi -show drun -show-icons -no-history
+
+XF86Audio{LowerVolume,RaiseVolume,Mute}
+	pulseaudio-ctl {down,up,mute}; sh ${ROOTDWM_PATH}/bin/dunst-volume-notify.sh
+
+# super + shift + r
+# 	pkill -USR1 -x sxhkd
+
+Print
+	sh ${ROOTDWM_PATH}/bin/rofi/screenshot.sh
+
+ctrl + alt + e
+	sh ${ROOTDWM_PATH}/bin/toggle-win.sh subl
