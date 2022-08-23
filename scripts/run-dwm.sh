@@ -5,6 +5,8 @@ export ROOTDWM_PATH
 
 sh "${ROOTDWM_PATH}/bin/dwm-bar.sh" &
 pgrep -x sxhkd >/dev/null || sxhkd -c "${ROOTDWM_PATH}/conf/sxhkdrc" &
+pgrep -x xautolock >/dev/null ||
+    xautolock -time 30 -corners 00+- -cornerdelay 1 -locker "sh ${ROOTDWM_PATH}/bin/lock.sh" &
 
 sh "$HOME/.bin/autostart.sh" &
 

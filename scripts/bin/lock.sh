@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 
-xsecurelock &
-sleep 1s
-xset dpms force off
+XSECURELOCK_BLANK_TIMEOUT=180 XSECURELOCK_BLANK_DPMS_STATE=off xsecurelock &

@@ -6,11 +6,31 @@ GREY='#44475a'
 DARKBLUE='#bd93f9'
 RED=#BF616A
 
+print_github_notifications() {
+    notifications=$(env https_proxy=socks5://127.0.0.1:7890 gh api \
+        -H "Accept: application/vnd.github+json" \
+        /notifications | jq '. | length')
+    if [ "${notifications}" -eq 0 ]; then
+        echo -n "^c$WHITE^^b$BLACK^ "
+    else
+        echo -n "^c$RED^^b$BLACK^ "
+    fi
+    echo -n " ${notifications}"
+}
+
 print_update() {
     pacman_update_num=$(checkupdates | wc -l)
     yay_update_num=$(pacman -Qu | wc -l)
 
-    echo -n $((pacman_update_num + yay_update_num))
+    update_num=$((pacman_update_num + yay_update_num))
+
+    if [ "${update_num}" -eq 0 ]; then
+        echo -n "^c$WHITE^"
+    else
+        echo -n "^c$RED^"
+    fi
+    echo -n "  "
+    echo -n ${update_num}
 }
 
 print_mem() {
@@ -55,24 +75,20 @@ print_time() {
     echo -n " $(date "+%a %b %d %H:%M")"
 }
 
-update_cnt=10000
-update_num=0
-update_prefix="^c$WHITE^"
+cycle_cnt=10000
+update_num=''
+github_notifications=''
 while true; do
-    if [ $update_cnt -gt 300 ]; then
+    if [ $cycle_cnt -gt 300 ]; then
         update_num=$(print_update)
-        update_cnt=0
+        github_notifications=$(print_github_notifications)
 
-        if [ "${update_num}" -eq 0 ]; then
-            update_prefix=" ^c$WHITE^"
-        else
-            update_prefix=" ^c$RED^"
-        fi
+        cycle_cnt=0
     fi
 
     sep="^c$GREY^^b$BLACK^"
-    xsetroot -name " ${update_prefix}${update_num} $(print_volume) ${sep}$(print_cpu) ${sep}$(print_mem) $(print_time) "
+    xsetroot -name " ${github_notifications} ${sep}${update_num} ${sep}$(print_volume) ${sep}$(print_cpu) ${sep}$(print_mem) $(print_time) "
     sleep 1s
 
-    update_cnt=$((update_cnt + 1))
+    cycle_cnt=$((cycle_cnt + 1))
 done
