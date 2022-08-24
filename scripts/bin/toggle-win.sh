@@ -17,7 +17,7 @@ toggle_win() {
 }
 
 case $1 in
-"subl")
+"Subl")
     win_id=$( (
         xdotool search --name "Sublime Text - Sublime Text"
         xdotool search --class "Subl"
@@ -30,6 +30,14 @@ case $1 in
             xdotool search --class "Subl"
         ) | sort | uniq -d)
     fi
+    ;;
+
+"Cherrytree")
+    for id in $(xdotool search --class "Cherrytree"); do
+        if [ "$(xwininfo -id "${id}" | grep "^xwininfo" | awk -F'"' '{print $(NF-1)}')" != "cherrytree" ]; then
+            win_id=$id
+        fi
+    done
     ;;
 
 esac
