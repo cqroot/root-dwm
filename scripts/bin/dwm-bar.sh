@@ -46,11 +46,18 @@ print_cpu() {
 
 print_volume() {
     volume_off_icon="婢"
-    volume_low_icon="奄"
-    volume_medium_icon="奔"
+    # volume_low_icon="奄"
+    # volume_medium_icon="奔"
     volume_high_icon="墳"
 
     echo -n "^c$WHITE^^b$BLACK^ "
+
+    SINK_NAME=$(pactl info | grep 'Default Sink:' | awk -F. '{print $NF}')
+    if [ "$SINK_NAME" == "analog-stereo" ]; then
+        echo -n " "
+    else
+        echo -n "蓼 "
+    fi
 
     SINK=$(pactl list short sinks | sed -e 's,^\([0-9][0-9]*\)[^0-9].*,\1,' | head -n 1)
     VOLUME=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $((SINK + 1)) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
