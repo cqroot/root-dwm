@@ -8,7 +8,7 @@ super + p
 	sh ${ROOTDWM_PATH}/bin/rofi/power.sh
 
 super + s
-	rofi -show drun -show-icons -no-history
+	rofi -m -4 -show drun -show-icons -no-history
 
 XF86Audio{LowerVolume,RaiseVolume,Mute}
 	pulseaudio-ctl {down,up,mute}; sh ${ROOTDWM_PATH}/bin/dunst-volume-notify.sh
@@ -19,5 +19,8 @@ XF86Audio{LowerVolume,RaiseVolume,Mute}
 Print
 	sh ${ROOTDWM_PATH}/bin/rofi/screenshot.sh
 
-ctrl + alt + e
-	sh ${ROOTDWM_PATH}/bin/toggle-win.sh subl
+super + ctrl + e
+	sh ${ROOTDWM_PATH}/bin/toggle-win.sh Subl
+
+super + ctrl + w
+	sh ${ROOTDWM_PATH}/bin/toggle-win.sh Cherrytree
